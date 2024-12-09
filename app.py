@@ -56,7 +56,7 @@ def get_collin():
         "Hobbies": ["Cooking", "fishing", "crafting stuff"]
     })
     
-
+    
 @app.route('/api/johan')
 def get_johan():
     # start a list, to be used like a information database
@@ -74,7 +74,23 @@ def get_johan():
     })
 
 
+@app.route('/api/michelle')
+def get_michelle():
+    # start a list, to be used like a information database
+    InfoDb = [] 
 
+    # add a row to list, an Info record
+    InfoDb.append({
+        "FirstName": "Michelle",
+        "LastName": "Kuruvilla",
+        "DOB": "July 7",
+        "Residence": "San Diego",
+        "Email": "kuruvillamichelle@gmail.com",
+        "Favorite_Videogame": "Agario",
+        "Hobbies": ["Eating", "Listeningtomusic", "Reading"]
+    })
+    
+    
 # add an HTML endpoint to flask app
 @app.route('/')
 def say_hello():
