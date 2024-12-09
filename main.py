@@ -163,7 +163,13 @@ def get_data():
         "Favorite_Videogame": "Elden Ring",
         "Hobbies": ["Videogames", "Guitar", "Musicproduction"]
     })
-    
+
+@app.route('/api/anyi')
+def get_data():
+    # start a list, to be used like a information database
+    InfoDb = [] 
+
+    # add a row to list, an Info record    
     InfoDb.append({
         "FirstName": "Anyi",
         "LastName": "Wang",
