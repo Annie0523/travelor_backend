@@ -40,6 +40,22 @@ def get_luke():
         "Hobbies": ["Videogames", "Guitar", "Musicproduction"]
     })
     
+@app.route('/api/collin')
+def get_collin():
+    # start a list, to be used like a information database
+    InfoDb = [] 
+
+    # add a row to list, an Info record    
+    InfoDb.append({
+        "FirstName": "Collin",
+        "LastName": "Ge",
+        "DOB": "March 26",
+        "Residence": "San Diego",
+        "Email": "collinxiaoheizi@gmail.com",
+        "Favorite_Videogame": "Honkai starrail",
+        "Hobbies": ["Cooking", "fishing", "crafting stuff"]
+    })
+    
 # add an HTML endpoint to flask app
 @app.route('/')
 def say_hello():
