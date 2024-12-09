@@ -163,6 +163,16 @@ def get_data():
         "Favorite_Videogame": "Elden Ring",
         "Hobbies": ["Videogames", "Guitar", "Musicproduction"]
     })
+    
+    InfoDb.append({
+        "FirstName": "Anyi",
+        "LastName": "Wang",
+        "DOB": "May 23",
+        "Residence": "San Diego",
+        "Email": "anyiw887@gmail.com",
+        "Favorite_Videogame": "Splatoon",
+        "Hobbies": ["Baking", "Chinese Zither", "Badminton"]
+    })
 # Create an AppGroup for custom commands
 custom_cli = AppGroup('custom', help='Custom commands')
 
