@@ -23,6 +23,8 @@ def get_anyi():
         "Favorite_Videogame": "Splatoon",
         "Hobbies": ["Baking", "Chinese Zither", "Badminton"]
     })
+    
+    return jsonify(InfoDb)
 
 @app.route('/api/luke')
 def get_luke():
@@ -40,6 +42,8 @@ def get_luke():
         "Hobbies": ["Videogames", "Guitar", "Musicproduction"]
     })
     
+    return jsonify(InfoDb)
+
 @app.route('/api/collin')
 def get_collin():
     # start a list, to be used like a information database
@@ -56,6 +60,7 @@ def get_collin():
         "Hobbies": ["Cooking", "fishing", "crafting stuff"]
     })
     
+    return jsonify(InfoDb)
     
 @app.route('/api/johan')
 def get_johan():
@@ -72,7 +77,8 @@ def get_johan():
         "Favorite_song": "Thick of it by KSI",
         "Hobbies": ["Gymnasium", "swimming", "Videogames"]
     })
-
+    
+    return jsonify(InfoDb)
 
 @app.route('/api/michelle')
 def get_michelle():
@@ -90,6 +96,7 @@ def get_michelle():
         "Hobbies": ["Eating", "Listeningtomusic", "Reading"]
     })
     
+    return jsonify(InfoDb)
     
 # add an HTML endpoint to flask app
 @app.route('/')
@@ -108,4 +115,4 @@ def say_hello():
 
 if __name__ == '__main__':
     # starts flask server on default port, http://127.0.0.1:5001
-    app.run(port=5001)
+    app.run(port=5002)
