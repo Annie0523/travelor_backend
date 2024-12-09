@@ -148,37 +148,6 @@ def reset_password(user_id):
     return jsonify({'error': 'Password reset failed'}), 500
 
 
-@app.route('/api/luke')
-def get_data():
-    # start a list, to be used like a information database
-    InfoDb = [] 
-
-    # add a row to list, an Info record
-    InfoDb.append({
-        "FirstName": "Luke",
-        "LastName": "Starr",
-        "DOB": "November 2",
-        "Residence": "San Diego",
-        "Email": "lstarr1100@gmail.com",
-        "Favorite_Videogame": "Elden Ring",
-        "Hobbies": ["Videogames", "Guitar", "Musicproduction"]
-    })
-
-@app.route('/api/anyi')
-def get_data():
-    # start a list, to be used like a information database
-    InfoDb = [] 
-
-    # add a row to list, an Info record    
-    InfoDb.append({
-        "FirstName": "Anyi",
-        "LastName": "Wang",
-        "DOB": "May 23",
-        "Residence": "San Diego",
-        "Email": "anyiw887@gmail.com",
-        "Favorite_Videogame": "Splatoon",
-        "Hobbies": ["Baking", "Chinese Zither", "Badminton"]
-    })
 # Create an AppGroup for custom commands
 custom_cli = AppGroup('custom', help='Custom commands')
 

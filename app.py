@@ -8,44 +8,38 @@ CORS(app, supports_credentials=True, origins='*')  # Allow all origins (*)
 # ... your existing Flask
 
 # add an api endpoint to flask app
-@app.route('/api/data')
-def get_data():
-    # # start a list, to be used like a information database
-    # InfoDb = []
+@app.route('/api/anyi')
+def get_anyi():
+    # start a list, to be used like a information database
+    InfoDb = [] 
 
-    # # add a row to list, an Info record
-    # InfoDb.append({
-    #     "FirstName": "John",
-    #     "LastName": "Mortensen",
-    #     "DOB": "October 21",
-    #     "Residence": "San Diego",
-    #     "Email": "jmortensen@powayusd.com",
-    #     "Owns_Cars": ["2015-Fusion", "2011-Ranger", "2003-Excursion", "1997-F350", "1969-Cadillac"]
-    # })
+    # add a row to list, an Info record    
+    InfoDb.append({
+        "FirstName": "Anyi",
+        "LastName": "Wang",
+        "DOB": "May 23",
+        "Residence": "San Diego",
+        "Email": "anyiw887@gmail.com",
+        "Favorite_Videogame": "Splatoon",
+        "Hobbies": ["Baking", "Chinese Zither", "Badminton"]
+    })
 
-    # # add a row to list, an Info record
-    # InfoDb.append({
-    #     "FirstName": "Shane",
-    #     "LastName": "Lopez",
-    #     "DOB": "February 27",
-    #     "Residence": "San Diego",
-    #     "Email": "slopez@powayusd.com",
-    #     "Owns_Cars": ["2021-Insight"]
-    # })
+@app.route('/api/luke')
+def get_luke():
+    # start a list, to be used like a information database
+    InfoDb = [] 
+
+    # add a row to list, an Info record
+    InfoDb.append({
+        "FirstName": "Luke",
+        "LastName": "Starr",
+        "DOB": "November 2",
+        "Residence": "San Diego",
+        "Email": "lstarr1100@gmail.com",
+        "Favorite_Videogame": "Elden Ring",
+        "Hobbies": ["Videogames", "Guitar", "Musicproduction"]
+    })
     
-    travelDestinations = [
-        {
-            "Location": "New York City",
-            "Travel Cost ($)": 1000
-        },
-        {
-            "Location": "Hong Kong",
-            "Travel Cost ($)": 10000
-        }
-    ]
-    
-    return jsonify(travelDestinations)
-
 # add an HTML endpoint to flask app
 @app.route('/')
 def say_hello():
