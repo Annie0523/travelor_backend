@@ -26,7 +26,7 @@ def get_anyi():
     
     return jsonify(InfoDb)
 
-@app.route('/api/luke')
+@app.route('/api/luke', methods=['GET'])
 def get_luke():
     # start a list, to be used like a information database
     InfoDb = [] 
@@ -43,6 +43,8 @@ def get_luke():
     })
     
     return jsonify(InfoDb)
+if __name__ == "__app__":
+    app.run(debug=True, host="0.0.0.0", port="8887")
 
 @app.route('/api/collin')
 def get_collin():
@@ -61,7 +63,7 @@ def get_collin():
     })
     
     return jsonify(InfoDb)
-    
+
 @app.route('/api/johan')
 def get_johan():
     # start a list, to be used like a information database
