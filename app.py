@@ -43,7 +43,7 @@ def get_luke():
     })
     
     return jsonify(InfoDb)
-if __name__ == "__app__":
+if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port="8887")
 
 @app.route('/api/collin')
