@@ -26,7 +26,7 @@ def get_anyi():
     
     return jsonify(InfoDb)
 
-@app.route('/api/luke', methods=['GET'])
+@app.route('/api/luke')
 def get_luke():
     # start a list, to be used like a information database
     InfoDb = [] 
