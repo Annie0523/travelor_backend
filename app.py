@@ -71,7 +71,7 @@ def get_johan():
     InfoDb.append({
         "FirstName": "Johan",
         "LastName": "Mascarenhas",
-        "DOB": "Jnauary 8",
+        "DOB": "January 8",
         "Residence": "San Diego",
         "Email": "johanmascarenhas.jm@gmail.com",
         "Favorite_song": "Thick of it by KSI",
