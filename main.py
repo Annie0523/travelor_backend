@@ -35,7 +35,7 @@ from model.group import Group, initGroups
 from model.channel import Channel, initChannels
 from model.post import Post, initPosts
 from model.nestPost import NestPost, initNestPosts # Justin added this, custom format for his website
-from model.vote import Vote, initVotes #test
+from model.vote import Vote, initVotes
 # server only Views
 
 # register URIs for api endpoints
@@ -78,16 +78,33 @@ def is_safe_url(target):
 def login():
     error = None
     next_page = request.args.get('next', '') or request.form.get('next', '')
+
+    # Check if the request method is POST
     if request.method == 'POST':
-        user = User.query.filter_by(_uid=request.form['username']).first()
-        if user and user.is_password(request.form['password']):
-            login_user(user)
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Fetch the user from the database
+        user = User.query.filter_by(_uid=username).first()
+
+        # Validate the user's credentials
+        if user and user.is_password(password):
+            # Log the user in
+            remember_me = 'remember_me' in request.form  # Checkbox in login form
+            login_user(user, remember=remember_me)
+
+            # Check if the next page URL is safe
             if not is_safe_url(next_page):
                 return abort(400)
+
+            # Redirect to the next page or the index
             return redirect(next_page or url_for('index'))
         else:
             error = 'Invalid username or password.'
+
+    # Render the login page with the error (if any)
     return render_template("login.html", error=error, next=next_page)
+
     
 @app.route('/logout')
 def logout():
