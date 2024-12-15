@@ -227,17 +227,20 @@ class User(db.Model, UserMixin):
             password=app.config["DEFAULT_PASSWORD"]
         self._password = generate_password_hash(password, "pbkdf2:sha256", salt_length=10)
 
-    def is_password(self, password):
+
+    def is_password(self, password: str) -> bool:
         """
-        Checks if the provided password matches the user's stored password.
-        
+        Verifies if the provided password matches the stored hashed password.
+
         Args:
-            password (str): The password to check.
+            password (str): The plaintext password to check.
         
         Returns:
             bool: True if the password matches, False otherwise.
         """
+        from werkzeug.security import check_password_hash
         return check_password_hash(self._password, password)
+
 
     def __str__(self):
         """
