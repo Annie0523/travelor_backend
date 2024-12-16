@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const port = 8887; // Backend port
+const port = 3000; // Backend port
 
 // Middleware
 app.use(cors()); // Enable CORS for frontend communication
