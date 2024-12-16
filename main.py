@@ -80,7 +80,9 @@ def login():
     next_page = request.args.get('next', '') or request.form.get('next', '')
 
     # Check if the request method is POST
+    # print("Test point 4")
     if request.method == 'POST':
+        # print("Test point 3")
         username = request.form.get('username')
         password = request.form.get('password')
 
@@ -88,7 +90,9 @@ def login():
         user = User.query.filter_by(_uid=username).first()
 
         # Validate the user's credentials
+        # print("Test point 1")
         if user and user.is_password(password):
+            # print("Test point 2")
             # Log the user in
             remember_me = 'remember_me' in request.form  # Checkbox in login form
             login_user(user, remember=remember_me)
@@ -104,6 +108,40 @@ def login():
 
     # Render the login page with the error (if any)
     return render_template("login.html", error=error, next=next_page)
+
+@app.route('/sign_up', methods=['GET', 'POST'])
+def sign_up():
+    error = None
+
+    if request.method == 'POST':
+        # Retrieve form data
+        name = request.form.get('name')
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Check if the username already exists
+        existing_user = User.query.filter_by(_uid=username).first()
+        if existing_user:
+            error = 'Username already exists. Please choose a different one.'
+        else:
+            # Hash the password before saving it
+            hashed_password = generate_password_hash(password)
+
+            # Create a new user object
+            new_user = User(name=name, _uid=username, _password=hashed_password)
+
+            # Add the user to the database
+            db.session.add(new_user)
+            db.session.commit()
+
+            # Log the new user in
+            login_user(new_user)
+
+            # Redirect to the index or a welcome page
+            return redirect(url_for('index'))
+
+    # Render the sign-up page with any error messages
+    return render_template("sign_up.html", error=error)
 
     
 @app.route('/logout')
