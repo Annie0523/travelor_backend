@@ -12,6 +12,14 @@ app.use(bodyParser.json()); // Parse JSON request bodies
 // Simulated database (in-memory)
 let comments = []; // Store comments in memory (resets on server restart)
 
+// Handle OPTIONS requests explicitly
+app.options('/comments', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).end(); // Respond to the preflight request
+});
+
 // API to get all comments
 app.get('/comments', (req, res) => {
     res.json(comments); // Respond with all comments
