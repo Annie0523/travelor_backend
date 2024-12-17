@@ -1,10 +1,9 @@
 from flask import Blueprint, jsonify
-from flask_restful import Api, Resource # used for REST API building
+from flask_restful import Api, Resource
+from flask_cors import CORS
 
-student_api = Blueprint('student_api', __name__,
-                   url_prefix='/api')
-
-# API docs https://flask-restful.readthedocs.io/en/latest/
+student_api = Blueprint('student_api', __name__, url_prefix='/api')
+CORS(student_api) 
 api = Api(student_api)
 
 class StudentAPI:        
