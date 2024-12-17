@@ -18,7 +18,7 @@ import os
 # Add the directory containing main.py to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from main import app, restore_data_command
+from sprint4_backend.explore import app, restore_data_command
 
 def main():
     # Step 3: Restore the database

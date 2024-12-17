@@ -29,7 +29,7 @@ import os
 # Add the directory containing main.py to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 # Import application object
-from main import app, db, generate_data
+from sprint4_backend.explore import app, db, generate_data
 
 # Backup the old database
 def backup_database(db_uri, backup_uri):
