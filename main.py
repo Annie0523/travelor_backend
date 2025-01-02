@@ -13,7 +13,7 @@ import shutil
 
 
 # import "objects" from "this" project
-from __init__ import app, db, login_manager  # Key Flask objects 
+from __init__ import app, db, login_manager  # Key Flask objects
 # API endpoints
 from api.user import user_api 
 from api.pfp import pfp_api
@@ -34,6 +34,7 @@ from model.section import Section, initSections
 from model.group import Group, initGroups
 from model.channel import Channel, initChannels
 from model.post import Post, initPosts
+from model.favorite import Favorite, initFavorite
 from model.nestPost import NestPost, initNestPosts # Justin added this, custom format for his website
 from model.vote import Vote, initVotes
 # server only Views
@@ -212,9 +213,10 @@ def generate_data():
     initGroups()
     initChannels()
     initPosts()
+    initFavorite()
     initNestPosts()
     initVotes()
-    
+
 # Backup the old database
 def backup_database(db_uri, backup_uri):
     """Backup the current database."""
@@ -235,6 +237,7 @@ def extract_data():
         data['groups'] = [group.read() for group in Group.query.all()]
         data['channels'] = [channel.read() for channel in Channel.query.all()]
         data['posts'] = [post.read() for post in Post.query.all()]
+        data['favorites'] = [favorite.read() for favorite in Favorite.query.all()]
     return data
 
 # Save extracted data to JSON files
@@ -262,6 +265,7 @@ def restore_data(data):
         _ = Group.restore(data['groups'], users)
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
+        _ = Favorite.restore(data['posts'])
     print("Data restored to the new database.")
 
 # Define a command to backup data
@@ -283,4 +287,4 @@ app.cli.add_command(custom_cli)
 # this runs the flask application on the development server
 if __name__ == "__main__":
     # change name for testing
-    app.run(debug=True, host="0.0.0.0", port="8887")
+    app.run(debug=True, host="0.0.0.0", port=8887)

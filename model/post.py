@@ -4,8 +4,10 @@ from sqlite3 import IntegrityError
 from sqlalchemy import Text, JSON
 from sqlalchemy.exc import IntegrityError
 from __init__ import app, db
+from model.favorite import Favorite
 from model.user import User
 from model.channel import Channel
+from flask import g
 
 class Post(db.Model):
     """
@@ -85,13 +87,15 @@ class Post(db.Model):
         """
         user = User.query.get(self._user_id)
         channel = Channel.query.get(self._channel_id)
+        favorite = Favorite.query.filter_by(user_id=g.current_user.id, post_id=self.id).first()
         data = {
             "id": self.id,
             "title": self._title,
             "comment": self._comment,
             "content": self._content,
             "user_name": user.name if user else None,
-            "channel_name": channel.name if channel else None
+            "channel_name": channel.name if channel else None,
+            "is_favorite": bool(favorite)
         }
         return data
     

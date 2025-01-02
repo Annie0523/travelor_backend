@@ -181,26 +181,6 @@ def initChannels():
             Channel(name='Cyber Patriots', group_id=activity_hub.id),
             Channel(name='Robotics', group_id=activity_hub.id),
         ]
-        
-        #P3 Channels Below
-         # Share and Care channels below:
-        DNHSCafe = Group.query.filter_by(_name='Study Room').first()
-        chess_forum = Group.query.filter_by(_name='Chess Forum').first()
-        Underground_Music = Group.query.filter_by(_name='Underground Music').first()
-        share_and_care_channels = [
-            Channel(name='Math', group_id=DNHSCafe.id),
-            Channel(name='Chemistry', group_id=DNHSCafe.id),
-            Channel(name='Biology', group_id=DNHSCafe.id),
-            Channel(name='English', group_id=DNHSCafe.id),
-            Channel(name='Coding', group_id=DNHSCafe.id),
-            Channel(name='History', group_id=DNHSCafe.id),
-            Channel(name='General', group_id=chess_forum.id),
-            Channel(name='Chess Tips', group_id=chess_forum.id),
-            Channel(name='Game Updates', group_id=chess_forum.id),
-            Channel(name='Artists', group_id=Underground_Music.id),
-            Channel(name='Songs', group_id=Underground_Music.id),
-            Channel(name='Genres', group_id=Underground_Music.id),
-        ]
 
         # P2 channels below:
         
