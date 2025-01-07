@@ -25,7 +25,8 @@ from api.section import section_api
 from api.nestPost import nestPost_api # Justin added this, custom format for his website
 from api.messages_api import messages_api # Adi added this, messages for his website
 from api.vote import vote_api
-from student import student_api # Anyi added
+from api.student import student_api # Anyi added
+from api.landscape import landscape_api
 
 # database Initialization functions
 from model.carChat import CarChat
@@ -48,6 +49,7 @@ app.register_blueprint(channel_api)
 app.register_blueprint(group_api)
 app.register_blueprint(section_api)
 app.register_blueprint(student_api)
+app.register_blueprint(landscape_api)
 # Added new files to create nestPosts, uses a different format than Mortensen and didn't want to touch his junk
 app.register_blueprint(nestPost_api)
 app.register_blueprint(nestImg_api)
