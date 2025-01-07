@@ -37,6 +37,6 @@ app.post('/comments', (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-    console.log(`Backend server is running on http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Backend server is running on http://10.8.132.92:${port}`);
 });
