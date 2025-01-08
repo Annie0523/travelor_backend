@@ -18,7 +18,7 @@ comments = []
 class CommentAPI:
     """
     Define the API CRUD endpoints for the Comment model.
-    There are four operations that correspond to common HTTP methods:
+    There are two operations that correspond to common HTTP methods:
     - post: create a new comment
     - get: get all the comments
     """
