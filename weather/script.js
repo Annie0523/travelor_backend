@@ -17,9 +17,9 @@ btn.addEventListener('click', async function () {
     }
 });
 
-// Fetch weather data from the OpenWeatherMap API
+// Fetch weather data from the OpenWeatherMap API Database
 async function fetchWeatherData(city) {
-    const apiKey = 'e0064657765b47ca4e8b74e09e042fe5'; // Replace with your API key
+    const apiKey = 'e0064657765b47ca4e8b74e09e042fe5'; // API Key here <-
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
     const response = await fetch(url);
@@ -29,7 +29,7 @@ async function fetchWeatherData(city) {
     return await response.json();
 }
 
-// Display weather data on the frontend
+// Display fetched weather data on the frontend
 function displayWeather(data) {
     const result = document.getElementById('result');
     result.innerHTML = `
