@@ -20,7 +20,12 @@ def save_results(data):
         json.dump(results, file, indent=4)  # Save back to file
 
 
-# Endpoint to save quiz results
+# Root route (just for testing)
+@app.route('/')
+def index():
+    return "Welcome to the Quiz App! Use /submit-quiz to submit quiz data and /get-results to get all results."
+
+# Endpoint to save quiz results (POST request)
 @app.route('/submit-quiz', methods=['POST'])
 def submit_quiz():
     try:
@@ -45,16 +50,19 @@ def submit_quiz():
         return jsonify({"error": str(e)}), 500
 
 
-# Endpoint to view all stored results
+# Endpoint to view all stored results (GET request)
 @app.route('/get-results', methods=['GET'])
 def get_results():
     try:
+        # Check if results file exists
         if not os.path.exists(RESULTS_FILE):
-            return jsonify([])  # Return empty list if no data exists
+            return jsonify({"message": "No results found."}), 200  # Return empty message if no data exists
         
+        # Read the existing results from the file
         with open(RESULTS_FILE, 'r') as file:
             results = json.load(file)
         
+        # Return the stored results
         return jsonify(results), 200
 
     except Exception as e:
@@ -63,3 +71,4 @@ def get_results():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
