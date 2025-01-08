@@ -15,6 +15,7 @@ import shutil
 # import "objects" from "this" project
 from __init__ import app, db, login_manager  # Key Flask objects
 # API endpoints
+from api.comments import comment_api
 from api.user import user_api 
 from api.pfp import pfp_api
 from api.nestImg import nestImg_api # Justin added this, custom format for his website
@@ -25,8 +26,7 @@ from api.section import section_api
 from api.nestPost import nestPost_api # Justin added this, custom format for his website
 from api.messages_api import messages_api # Adi added this, messages for his website
 from api.vote import vote_api
-from api.student import student_api # Anyi added
-from api.landscape import landscape_api
+from student import student_api # Anyi added
 
 # database Initialization functions
 from model.carChat import CarChat
@@ -41,6 +41,7 @@ from model.vote import Vote, initVotes
 # server only Views
 
 # register URIs for api endpoints
+app.register_blueprint(comment_api)
 app.register_blueprint(messages_api) # Adi added this, messages for his website
 app.register_blueprint(user_api)
 app.register_blueprint(pfp_api) 
@@ -49,7 +50,6 @@ app.register_blueprint(channel_api)
 app.register_blueprint(group_api)
 app.register_blueprint(section_api)
 app.register_blueprint(student_api)
-app.register_blueprint(landscape_api)
 # Added new files to create nestPosts, uses a different format than Mortensen and didn't want to touch his junk
 app.register_blueprint(nestPost_api)
 app.register_blueprint(nestImg_api)
