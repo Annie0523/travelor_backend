@@ -1,74 +1,60 @@
-from flask import Flask, request, jsonify
-import json
-import os
+from flask import Flask, jsonify
+import requests
 
 app = Flask(__name__)
 
-# Path to store quiz results
-RESULTS_FILE = "quiz_results.json"
+# Sample data (you can replace this with real backend data)
+destinations = [
+    {"name": "Maldives"},
+    {"name": "Swiss Alps"},
+    {"name": "Kyoto, Japan"},
+    {"name": "Hawaii"},
+    {"name": "Bangkok, Thailand"}
+]
 
-# Helper function to save quiz data
-def save_results(data):
-    if not os.path.exists(RESULTS_FILE):
-        with open(RESULTS_FILE, 'w') as file:
-            json.dump([], file)  # Initialize empty list in JSON file
-    
-    with open(RESULTS_FILE, 'r+') as file:
-        results = json.load(file)  # Load existing results
-        results.append(data)  # Add new result
-        file.seek(0)  # Reset file pointer to beginning
-        json.dump(results, file, indent=4)  # Save back to file
+# Route to get data from backend (existing)
+@app.route('/', methods=['GET'])
+def get_data():
+    return jsonify(destinations)
 
-
-# Root route (just for testing)
-@app.route('/')
-def index():
-    return "Welcome to the Quiz App! Use /submit-quiz to submit quiz data and /get-results to get all results."
-
-# Endpoint to save quiz results (POST request)
-@app.route('/submit-quiz', methods=['POST'])
-def submit_quiz():
+# Route to execute Python script logic and fetch data
+@app.route('/run-script', methods=['GET'])
+def run_script():
     try:
-        quiz_data = request.json  # Data sent from frontend
-        
-        # Ensure data is present
-        if not quiz_data:
-            return jsonify({"error": "No data received"}), 400
-        
-        # Example validation (ensure required fields exist)
-        required_fields = ['username', 'climate', 'activities', 'budget']
-        for field in required_fields:
-            if field not in quiz_data:
-                return jsonify({"error": f"Missing field: {field}"}), 400
-        
-        # Save the quiz result
-        save_results(quiz_data)
-        
-        return jsonify({"message": "Quiz results saved successfully!"}), 200
+        # This could be a request to another backend API or your own logic
+        response = requests.get('http://127.0.0.1:5001')  # Adjust based on your backend setup
 
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        # If successful, return the parsed JSON data
+        if response.status_code == 200:
+            data = response.json()
+            result = [f"Data from backend: {city['name']}" for city in data]
+            return jsonify({"status": "success", "data": result})
+        else:
+            return jsonify({"status": "failed", "message": f"Failed to fetch data. HTTP Status Code: {response.status_code}"})
+    except requests.exceptions.RequestException as e:
+        return jsonify({"status": "error", "message": f"An error occurred: {e}"})
 
+if __name__ == '__main__':
+    app.run(debug=True, port=5001)  # You can change the port here if necessary
 
-# Endpoint to view all stored results (GET request)
-@app.route('/get-results', methods=['GET'])
-def get_results():
+import requests
+
+def fetch_data_from_backend():
     try:
-        # Check if results file exists
-        if not os.path.exists(RESULTS_FILE):
-            return jsonify({"message": "No results found."}), 200  # Return empty message if no data exists
-        
-        # Read the existing results from the file
-        with open(RESULTS_FILE, 'r') as file:
-            results = json.load(file)
-        
-        # Return the stored results
-        return jsonify(results), 200
+        # Make a GET request to the Flask server
+        response = requests.get('http://127.0.0.1:5001')
 
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        # Check if the response is successful
+        if response.status_code == 200:
+            data = response.json()  # Parse the JSON response
+            print("Data from backend:")
+            for city in data:
+                print(f"- {city['name']}")  # Print the city name from the list
+        else:
+            print(f"Failed to fetch data. HTTP Status Code: {response.status_code}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
 
