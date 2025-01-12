@@ -1,207 +1,227 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_restful import Api, Resource
 from flask_cors import CORS
 
+# Create Blueprint and API instance
 weather_api = Blueprint('weather_api', __name__, url_prefix='/api')
-CORS(weather_api) 
+CORS(weather_api)
 api = Api(weather_api)
 
 class WeatherAPI:
     @staticmethod
     def get_weather(name):
         cities = {
-            "Sandiego": {
+            "sandiego": {
                 "name": "San Diego",
                 "value": "san_diego",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Tokyo": {
+            "tokyo": {
                 "name": "Tokyo",
                 "value": "tokyo",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Mumbai": {
+            "mumbai": {
                 "name": "Mumbai",
                 "value": "mumbai",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Cairo": {
+            "cairo": {
                 "name": "Cairo",
                 "value": "cairo",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Lagos": {
+            "lagos": {
                 "name": "Lagos",
                 "value": "lagos",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "London": {
+            "london": {
                 "name": "London",
                 "value": "london",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Paris": {
+            "paris": {
                 "name": "Paris",
                 "value": "paris",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Newyorkcity": {
+            "newyorkcity": {
                 "name": "New York City",
                 "value": "new_york_city",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Mexicocity": {
+            "mexicocity": {
                 "name": "Mexico City",
                 "value": "mexico_city",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Saopaulo": {
+            "saopaulo": {
                 "name": "Sao Paulo",
                 "value": "sao_paulo",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
             },
-            "Buenosaires": {
+            "buenosaires": {
                 "name": "Buenos Aires",
                 "value": "buenos_aires",
-                "temperature":"00",
+                "temperature": "00",
                 "feelslike": "00",
                 "humidity": "00",
                 "pressure": "00",
                 "windspeed": "00",
                 "winddirection": "00",
-            },     
+            },
         }
-        return cities.get(name)
+        return cities.get(name.lower())
 
-    class _sandiego(Resource): 
+    # Individual Resource Classes
+    class Sandiego(Resource):
         def get(self):
-            cities = WeatherAPI.get_weather("Sandiego")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404
-    class _tokyo(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("Tokyo")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _mumbai(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("Mumbai")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _cairo(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("Cairo")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _lagos(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("Lagos")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _london(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("London")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _paris(Resource):
-        def get(self):
-            cities = WeatherAPI.get_weather("Paris")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _newyorkcity(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("Newyorkcity")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _mexicocity(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("Mexicocity")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _saopaulo(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("Saopualo")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
-    class _buenosaires(Resource): 
-        def get(self):
-            cities = WeatherAPI.get_weather("Buenosaires")
-            if cities:
-                return jsonify(cities) 
-            return {"Data not found"}, 404 
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("sandiego")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
 
-    # building RESTapi endpoint
-api.add_resource(WeatherAPI._sandiego, '/cities/sandiego')
-api.add_resource(WeatherAPI._tokyo, '/cities/tokyo')
-api.add_resource(WeatherAPI._mumbai, '/cities/mumbai')
-api.add_resource(WeatherAPI._cairo, '/cities/cairo')
-api.add_resource(WeatherAPI._lagos, '/cities/lagos')
-api.add_resource(WeatherAPI._london, '/cities/london')
-api.add_resource(WeatherAPI._paris, '/cities/paris')
-api.add_resource(WeatherAPI._newyorkcity, '/cities/newyorkcity')
-api.add_resource(WeatherAPI._mexicocity, '/cities/mexicocity')
-api.add_resource(WeatherAPI._saopaulo, '/cities/saopaulo')
-api.add_resource(WeatherAPI._buenosaires, '/cities/buenosaires')
+    class Tokyo(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("tokyo")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
 
-# Instantiate the StudentAPI to register the endpoints
-weather_api_instance = WeatherAPI()
+    class Mumbai(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("mumbai")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+    class Cairo(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("cairo")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+    class Lagos(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("lagos")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+    class London(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("london")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+    class Paris(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("paris")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+    class NewYorkCity(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("newyorkcity")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+    class MexicoCity(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("mexicocity")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+    class SaoPaulo(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("saopaulo")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+    class BuenosAires(Resource):
+        def get(self):
+            print(f"Request URL: {request.path}")  # Debugging request path
+            city_data = WeatherAPI.get_weather("buenosaires")
+            if city_data:
+                return jsonify(city_data)
+            return {"message": "City not found"}, 404
+
+# Register Individual Routes
+api.add_resource(WeatherAPI.Sandiego, '/cities/sandiego')
+api.add_resource(WeatherAPI.Tokyo, '/cities/tokyo')
+api.add_resource(WeatherAPI.Mumbai, '/cities/mumbai')
+api.add_resource(WeatherAPI.Cairo, '/cities/cairo')
+api.add_resource(WeatherAPI.Lagos, '/cities/lagos')
+api.add_resource(WeatherAPI.London, '/cities/london')
+api.add_resource(WeatherAPI.Paris, '/cities/paris')
+api.add_resource(WeatherAPI.NewYorkCity, '/cities/newyorkcity')
+api.add_resource(WeatherAPI.MexicoCity, '/cities/mexicocity')
+api.add_resource(WeatherAPI.SaoPaulo, '/cities/saopaulo')
+api.add_resource(WeatherAPI.BuenosAires, '/cities/buenosaires')
