@@ -29,6 +29,7 @@ from api.vote import vote_api
 from api.student import student_api # Anyi added
 from api.landscape import landscape_api
 from api.weatherstatic import weather_api
+from api.explore import explore_api
 
 # database Initialization functions
 from model.carChat import CarChat
@@ -54,6 +55,7 @@ app.register_blueprint(section_api)
 app.register_blueprint(student_api)
 app.register_blueprint(landscape_api)
 app.register_blueprint(weather_api)
+app.register_blueprint(explore_api)
 # Added new files to create nestPosts, uses a different format than Mortensen and didn't want to touch his junk
 app.register_blueprint(nestPost_api)
 app.register_blueprint(nestImg_api)

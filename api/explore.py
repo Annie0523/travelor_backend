@@ -1,9 +1,14 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-
+from flask import Blueprint, jsonify
+from flask_restful import Api, Resource
 
 app = Flask(__name__)
 CORS(app)
+
+explore_api = Blueprint('explore_api', __name__, url_prefix='/api')
+CORS(explore_api) 
+api = Api(explore_api)
 
 
 # ================== Static DATA ==================
@@ -98,3 +103,4 @@ if __name__ == "__main__":
 
 
 #breakpoint on 88
+
