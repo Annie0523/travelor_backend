@@ -1,22 +1,25 @@
-import os
-import json
+from flask import Flask, jsonify
+from flask_cors import CORS
 
 
+app = Flask(__name__)
+CORS(app)
 
-# ================== SAMPLE DATA ==================
+
+# ================== Static DATA ==================
 cities_data = [
     {
         "name": "Tokyo",
         "value": "tokyo",
         "position": [35.6895, 139.6917],
-        "category": "cultural",
-        "interest": "technology",
+        "category": "Modern",
+        "interest": "Anime",
     },
     {
         "name": "Mumbai",
         "value": "mumbai",
         "position": [19.0760, 72.8777],
-        "category": "cultural",
+        "category": "Religious",
         "interest": "bollywood",
     },
     {
@@ -30,7 +33,7 @@ cities_data = [
         "name": "Lagos",
         "value": "lagos",
         "position": [6.5244, 3.3792],
-        "category": "cultural",
+        "category": "Scenic",
         "interest": "afrobeat",
     },
     {
@@ -51,28 +54,47 @@ cities_data = [
         "name": "New York City",
         "value": "new_york_city",
         "position": [40.7128, -74.0060],
-        "category": "cultural",
-        "interest": "broadway",
+        "category": "Modern",
+        "interest": "Empire State",
     },
     {
         "name": "Mexico City",
         "value": "mexico_city",
         "position": [19.4326, -99.1332],
-        "category": "historical",
-        "interest": "art",
+        "category": "cultural",
+        "interest": "Hispanic",
     },
     {
         "name": "São Paulo",
         "value": "sao_paulo",
         "position": [-23.5505, -46.6333],
-        "category": "cultural",
-        "interest": "nightlife",
+        "category": "Natural",
+        "interest": "party",
     },
     {
         "name": "Buenos Aires",
         "value": "buenos_aires",
         "position": [-34.6037, -58.3816],
         "category": "historical",
-        "interest": "tango",
-    },
+        "interest": "football",
+    }
 ]
+
+
+
+
+@app.route("/")
+def home():
+    return jsonify(cities_data)  # Correct
+
+
+@app.route("/cities", methods=["GET"])
+def get_cities():
+    return jsonify(cities_data)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+#breakpoint on 88
