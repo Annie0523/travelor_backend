@@ -1,227 +1,126 @@
-from flask import Blueprint, jsonify, request
+from flask import Flask, jsonify
+from flask_cors import CORS, cross_origin
+from flask import Blueprint, jsonify
 from flask_restful import Api, Resource
-from flask_cors import CORS
+import json
+import os
 
-# Create Blueprint and API instance
-weather_api = Blueprint('weather_api', __name__, url_prefix='/api')
-CORS(weather_api)
+
+weather_api = Blueprint('weather_api', __name__,)
+CORS(weather_api) 
 api = Api(weather_api)
+# ================== Static DATA ==================
+weather_data = {
+    "Sandiego": {
+        "name": "San Diego",
+        "temperature": "20°C",
+        "feelslike": "19°C",
+        "humidity": "18%",
+        "pressure": "1021 hPa",
+        "windspeed": "3.6 m/s",
+        "winddirection": "300°",
+    },
+    "Tokyo": {
+        "name": "Tokyo",
+        "temperature": "5°C",
+        "feelslike": "4°C",
+        "humidity": "55%",
+        "pressure": "1020 hPa",
+        "windspeed": " 1.54 m/s",
+        "winddirection": "200°",
+    },
+    "Mumbai": {
+        "name": "Mumbai",
+        "temperature": "24°C",
+        "feelslike": "24°C",
+        "humidity": "60%",
+        "pressure": "1011 hPa",
+        "windspeed": "1.37 m/s",
+        "winddirection": "100°",
+    },
+    "Cairo": {
+        "name": "Cairo",
+        "temperature": "14°C",
+        "feelslike": "14°C",
+        "humidity": "72%",
+        "pressure": "1020 hPa",
+        "windspeed": "0.51 m/s",
+        "winddirection": "90°",
+    },
+    "Lagos": {
+        "name": "Lagos",
+        "temperature": "24°C",
+        "feelslike": "25°C",
+        "humidity": "84%",
+        "pressure": "1009 hPa",
+        "windspeed": "1.72 m/s",
+        "winddirection": "233°",
+    },
+    "London": {
+        "name": "London",
+        "temperature": "4°C",
+        "feelslike": "1°C",
+        "humidity": "86%",
+        "pressure": "1037 hPa",
+        "windspeed": "2.68 m/s",
+        "winddirection": "259°",
+    },
+    "Paris": {
+        "name": "Paris",
+        "temperature": "-1°C",
+        "feelslike": "-4°C",
+        "humidity": "85%",
+        "pressure": "1039 hPa",
+        "windspeed": "2.06 m/s",
+        "winddirection": "350°",
+    },
+    "Newyorkcity": {
+        "name": "New York City",
+        "temperature": "5°C",
+        "feelslike": "1°C",
+        "humidity": "53%",
+        "pressure": "1013 hPa",
+        "windspeed": "5.14 m/s",
+        "winddirection": "260°",
+    },
+    "Mexicocity": {
+        "name": "Mexico City",
+        "temperature": "23°C",
+        "feelslike": "22°C",
+        "humidity": "29%",
+        "pressure": "1012 hPa",
+        "windspeed": "1.34 m/s",
+        "winddirection": "70°",
+    },
+    "Saopaulo": {
+        "name": "Sao Paulo",
+        "temperature": "19°C",
+        "feelslike": "19°C",
+        "humidity": "79%",
+        "pressure": "1012 hPa",
+        "windspeed": "6.17 m/s",
+        "winddirection": "160°",
+    },
+    "Buenosaires": {
+        "name": "Buenos Aires",
+        "temperature": "27°C",
+        "feelslike": "28°C",
+        "humidity": "58%",
+        "pressure": "1009 hPa",
+        "windspeed": "8.05 m/s",
+        "winddirection": "80°",
+    },
+}
 
-class WeatherAPI:
-    @staticmethod
-    def get_weather(name):
-        cities = {
-            "sandiego": {
-                "name": "San Diego",
-                "value": "san_diego",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "tokyo": {
-                "name": "Tokyo",
-                "value": "tokyo",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "mumbai": {
-                "name": "Mumbai",
-                "value": "mumbai",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "cairo": {
-                "name": "Cairo",
-                "value": "cairo",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "lagos": {
-                "name": "Lagos",
-                "value": "lagos",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "london": {
-                "name": "London",
-                "value": "london",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "paris": {
-                "name": "Paris",
-                "value": "paris",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "newyorkcity": {
-                "name": "New York City",
-                "value": "new_york_city",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "mexicocity": {
-                "name": "Mexico City",
-                "value": "mexico_city",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "saopaulo": {
-                "name": "Sao Paulo",
-                "value": "sao_paulo",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-            "buenosaires": {
-                "name": "Buenos Aires",
-                "value": "buenos_aires",
-                "temperature": "00",
-                "feelslike": "00",
-                "humidity": "00",
-                "pressure": "00",
-                "windspeed": "00",
-                "winddirection": "00",
-            },
-        }
-        return cities.get(name.lower())
 
-    # Individual Resource Classes
-    class Sandiego(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("sandiego")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
+@weather_api.route ('/check', methods=['GET'])
+@cross_origin()
+def home():
+    return "working"
 
-    class Tokyo(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("tokyo")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
+@weather_api.route("/weather", methods=["GET"])
+def get_weather():
+    return jsonify(weather_data)
 
-    class Mumbai(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("mumbai")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-    class Cairo(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("cairo")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-    class Lagos(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("lagos")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-    class London(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("london")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-    class Paris(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("paris")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-    class NewYorkCity(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("newyorkcity")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-    class MexicoCity(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("mexicocity")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-    class SaoPaulo(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("saopaulo")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-    class BuenosAires(Resource):
-        def get(self):
-            print(f"Request URL: {request.path}")  # Debugging request path
-            city_data = WeatherAPI.get_weather("buenosaires")
-            if city_data:
-                return jsonify(city_data)
-            return {"message": "City not found"}, 404
-
-# Register Individual Routes
-api.add_resource(WeatherAPI.Sandiego, '/cities/sandiego')
-api.add_resource(WeatherAPI.Tokyo, '/cities/tokyo')
-api.add_resource(WeatherAPI.Mumbai, '/cities/mumbai')
-api.add_resource(WeatherAPI.Cairo, '/cities/cairo')
-api.add_resource(WeatherAPI.Lagos, '/cities/lagos')
-api.add_resource(WeatherAPI.London, '/cities/london')
-api.add_resource(WeatherAPI.Paris, '/cities/paris')
-api.add_resource(WeatherAPI.NewYorkCity, '/cities/newyorkcity')
-api.add_resource(WeatherAPI.MexicoCity, '/cities/mexicocity')
-api.add_resource(WeatherAPI.SaoPaulo, '/cities/saopaulo')
-api.add_resource(WeatherAPI.BuenosAires, '/cities/buenosaires')
+if __name__ == "__main__":
+    weather_api.run(debug=True, port=8887)
