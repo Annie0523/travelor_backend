@@ -27,7 +27,7 @@ from api.nestPost import nestPost_api # Justin added this, custom format for his
 from api.messages_api import messages_api # Adi added this, messages for his website
 from api.vote import vote_api
 from api.student import student_api # Anyi added
-from api.landscape import landscape_api
+from api.landscape import landscape_api # Anyi added
 from api.weatherstatic import weather_api
 from api.explore import explore_api
 
@@ -41,6 +41,7 @@ from model.post import Post, initPosts
 from model.favorite import Favorite, initFavorite
 from model.nestPost import NestPost, initNestPosts # Justin added this, custom format for his website
 from model.vote import Vote, initVotes
+from model.landscape import Landscape, initLandscape #Anyi added
 # server only Views
 
 # register URIs for api endpoints
@@ -53,7 +54,7 @@ app.register_blueprint(channel_api)
 app.register_blueprint(group_api)
 app.register_blueprint(section_api)
 app.register_blueprint(student_api)
-app.register_blueprint(landscape_api)
+app.register_blueprint(landscape_api) #Anyi added
 app.register_blueprint(weather_api)
 app.register_blueprint(explore_api)
 # Added new files to create nestPosts, uses a different format than Mortensen and didn't want to touch his junk
@@ -224,6 +225,7 @@ def generate_data():
     initFavorite()
     initNestPosts()
     initVotes()
+    initLandscape()
 
 # Backup the old database
 def backup_database(db_uri, backup_uri):
@@ -246,6 +248,7 @@ def extract_data():
         data['channels'] = [channel.read() for channel in Channel.query.all()]
         data['posts'] = [post.read() for post in Post.query.all()]
         data['favorites'] = [favorite.read() for favorite in Favorite.query.all()]
+        data['landscapes'] = [landscape.read() for landscape in Landscape.query.all()]
     return data
 
 # Save extracted data to JSON files
@@ -274,6 +277,7 @@ def restore_data(data):
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
         _ = Favorite.restore(data['posts'])
+        _ = Landscape.restore(data['landscapes'])
     print("Data restored to the new database.")
 
 # Define a command to backup data
