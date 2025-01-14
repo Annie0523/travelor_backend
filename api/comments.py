@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource  # used for REST API building
-from __init__ import app
+#from __init__ import app
 
 
 comment_api = Blueprint("comment_api", __name__, url_prefix='/api')
@@ -41,7 +41,8 @@ class CommentAPI:
             """
             Retrieve all comments.
             """
-            return jsonify(comments)
+            returnVal = jsonify(comments)
+            return returnVal
 
     api.add_resource(_CRUD, '/comment')
     api.add_resource(_BULK_CRUD, '/comment')
