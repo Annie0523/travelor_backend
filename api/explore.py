@@ -1,14 +1,17 @@
 from flask import Flask, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask import Blueprint, jsonify
 from flask_restful import Api, Resource
+import json
+import os
 
-app = Flask(__name__)
-CORS(app)
 
-explore_api = Blueprint('explore_api', __name__, url_prefix='/api')
-CORS(explore_api) 
-api = Api(explore_api)
+
+
+explore_api = Blueprint('explore_api', __name__)
+CORS(explore_api)
+
+
 
 
 # ================== Static DATA ==================
@@ -18,89 +21,107 @@ cities_data = [
         "value": "tokyo",
         "position": [35.6895, 139.6917],
         "category": "Modern",
-        "interest": "Anime",
+        "interest": "TOKYO:, technology, anime, Cherry Blossom, Temples, Shibuya"
     },
     {
         "name": "Mumbai",
         "value": "mumbai",
         "position": [19.0760, 72.8777],
         "category": "Religious",
-        "interest": "bollywood",
+        "interest": "MUMBAI:, bollywood, curry, Ganesh, Beaches, Elephants, Street Food, Taj Mahal",
     },
     {
         "name": "Cairo",
         "value": "cairo",
         "position": [30.0444, 31.2357],
         "category": "historical",
-        "interest": "pyramids",
+        "interest": "CAIRO:, pyramids, Egypt, Sphinx, Nile River, mosques",
     },
     {
         "name": "Lagos",
         "value": "lagos",
         "position": [6.5244, 3.3792],
         "category": "Scenic",
-        "interest": "afrobeat",
+        "interest": "LAGOS:, afrobeat, Beaches, Nike Art gallery, Jazz, Nightlife, Makoko",
     },
     {
         "name": "London",
         "value": "london",
         "position": [51.5074, -0.1278],
         "category": "historical",
-        "interest": "theatre",
+        "interest": "LONDON:, theatre, Buckingham Palace, Big Ben, King of England, Harry Potter, Tea",
     },
     {
         "name": "Paris",
         "value": "paris",
         "position": [48.8566, 2.3522],
         "category": "cultural",
-        "interest": "fashion",
+        "interest": "PARIS:, fashion, Eiffel Tower, Louvre Museum, France, Baguette, Notre Dame Cathedral",
     },
     {
         "name": "New York City",
         "value": "new_york_city",
         "position": [40.7128, -74.0060],
         "category": "Modern",
-        "interest": "Empire State",
+        "interest": "NEW YORK CITY:, Empire State, Times Square, Central Park, Broadway, Statue of Liberty, Wall Street, 9/11 memorial, Brooklyn Bridge, pizza, hot dogs",
     },
     {
         "name": "Mexico City",
         "value": "mexico_city",
         "position": [19.4326, -99.1332],
         "category": "cultural",
-        "interest": "Hispanic",
+        "interest": "MEXICO CITY:, Hispanic, Volcanic horizons, Day of the dead, Mariachi, tacos, burritos, Lucha Libre",
     },
     {
-        "name": "São Paulo",
+        "name": "Sao Paulo",
         "value": "sao_paulo",
         "position": [-23.5505, -46.6333],
         "category": "Natural",
-        "interest": "party",
+        "interest": "SAO PAULO:, Neon parties, Samba Beats, Soccer, Urban Jungles, party, Carnival, Brazil, Football, Street Art, Paulista Avenue, Beco do Batman",
     },
     {
         "name": "Buenos Aires",
         "value": "buenos_aires",
         "position": [-34.6037, -58.3816],
         "category": "historical",
-        "interest": "football",
+        "interest": "BUENOS AIRES:, football, Argentina, Steak, La Boca Neighborhood, Tango, Cafe Culture, Palermo Park",
     }
 ]
 
 
 
 
-@app.route("/")
+
+
+
+
+@explore_api.route('/check', methods=['GET'])
+@cross_origin()
 def home():
-    return jsonify(cities_data)  # Correct
+    return "working"
 
 
-@app.route("/cities", methods=["GET"])
+
+
+@explore_api.route("/cities", methods=["GET"])
 def get_cities():
     return jsonify(cities_data)
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+
+
+
+
+
+if __name__ == '__main__':
+    explore_api.run(debug=True, port=8887)
+
+
+
+
+
+
 
 
 #breakpoint on 88
-
