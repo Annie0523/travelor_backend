@@ -1,13 +1,12 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource  # used for REST API building
 #from __init__ import app
+from model.comment import Comment
 
 
 comment_api = Blueprint("comment_api", __name__, url_prefix='/api')
 
 api = Api(comment_api)
-
-comments = []
 
 class CommentAPI:
     """
@@ -21,7 +20,6 @@ class CommentAPI:
             """
             Create a new comment.
             """
-            global comments
             print("test")
             
             # Getting the information sent w/ request
@@ -32,8 +30,8 @@ class CommentAPI:
                 return {'message': 'No input data provided'}, 400
             if data.get('comment', '').strip() == '':
                 return {'message': 'Empty comment was provided'}, 400
-
-            comments.append(data.get('comment', ''))
+            comment = Comment(data.get('comment', ''))
+            comment.create()
             return "success!", 200
 
     class _BULK_CRUD(Resource):
@@ -41,8 +39,10 @@ class CommentAPI:
             """
             Retrieve all comments.
             """
-            returnVal = jsonify(comments)
-            return returnVal
+            comments_array = []
+            for comment in Comment.query.all():
+                comments_array.append(comment.comment)
+            return jsonify(comments_array)
 
     api.add_resource(_CRUD, '/comment')
     api.add_resource(_BULK_CRUD, '/comment')

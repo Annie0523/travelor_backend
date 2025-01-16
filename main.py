@@ -9,6 +9,7 @@ from flask_login import current_user, login_required
 from flask import current_app
 from werkzeug.security import generate_password_hash
 import shutil
+from model.comment import initComments
 
 
 
@@ -262,6 +263,7 @@ def generate_data():
     initFavorite()
     initNestPosts()
     initVotes()
+    initComments()
 
 
 # Backup the old database
