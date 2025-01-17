@@ -47,6 +47,7 @@ from model.post import Post, initPosts
 from model.favorite import Favorite, initFavorite
 from model.nestPost import NestPost, initNestPosts # Justin added this, custom format for his website
 from model.vote import Vote, initVotes
+from model.landscape import Landscape, initLandscape
 # server only Views
 
 
@@ -264,6 +265,7 @@ def generate_data():
     initNestPosts()
     initVotes()
     initComments()
+    initLandscape()
 
 
 # Backup the old database
@@ -288,6 +290,7 @@ def extract_data():
         data['channels'] = [channel.read() for channel in Channel.query.all()]
         data['posts'] = [post.read() for post in Post.query.all()]
         data['favorites'] = [favorite.read() for favorite in Favorite.query.all()]
+        data['landscapes'] = [landscape.read() for landscape in Landscape.query.all()]
     return data
 
 
@@ -319,6 +322,7 @@ def restore_data(data):
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
         _ = Favorite.restore(data['posts'])
+        _ = L.restore(data['posts'])
     print("Data restored to the new database.")
 
 
