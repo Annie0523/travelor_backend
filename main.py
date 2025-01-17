@@ -322,7 +322,7 @@ def restore_data(data):
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
         _ = Favorite.restore(data['posts'])
-        _ = Landscape.restore(data['posts'])
+        _ = Landscape.restore(data['landscapes'])
     print("Data restored to the new database.")
 
 
