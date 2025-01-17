@@ -14,14 +14,14 @@ class LandscapeAPI(Resource):
 
     def post(self):
         data = request.get_json()
-        new_landscape = Landscape(
-            name=data['name'],
-            country=data['country'],
-            city=data['city'],
-            description=data['description']
-        )
-        db.session.add(new_landscape)
-        db.session.commit()
-        return jsonify(new_landscape.serialize()), 201
+        new_landscape = Landscape(data['name'], data['country'], data['city'], data['description'])
+        new_landscape.create()
+        return jsonify(new_landscape)
+    
+    def delete(self):
+        data = request.get_json()
+        landscape = Landscape.query.get(data['id'])
+        landscape.delete()
+        return jsonify(f'Successfully deleted {landscape}')
 
 api.add_resource(LandscapeAPI, '/landscapes')
