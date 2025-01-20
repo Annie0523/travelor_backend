@@ -3,11 +3,11 @@ from flask_restful import Api, Resource
 from flask_cors import CORS
 
 
+
+
 destinations_api = Blueprint('destinations_api', __name__, url_prefix='/api')
 CORS(destinations_api)
 api = Api(destinations_api)
-
-
 class DestinationsAPI:
     @staticmethod
     def get_destinations(name):
@@ -31,6 +31,8 @@ class DestinationsAPI:
                 }            
         }
         return destination.get(name)
+
+
 
 
     class _maldives(Resource):
@@ -59,11 +61,15 @@ class DestinationsAPI:
             return {"Data not found"}, 404
 
 
+
+
     # building RESTapi endpoint
 api.add_resource(DestinationsAPI._maldives, '/destinations/maldives')
 api.add_resource(DestinationsAPI._cancun, '/destinations/cancun')
 api.add_resource(DestinationsAPI._japan, '/destinations/japan')
 api.add_resource(DestinationsAPI._hawaii, '/destinations/hawaii')
+
+
 
 
 # Instantiate the StudentAPI to register the endpoints
@@ -76,11 +82,31 @@ destinations_api_instance = DestinationsAPI()
 
 
 
+
+
+
+
+
+
+
+
 from flask import Flask, jsonify
 import requests
 
 
+
+
 app = Flask(__name__)
+
+
+
+
+
+
+
+
+
+
 
 
 

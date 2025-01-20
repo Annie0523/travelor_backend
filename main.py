@@ -30,11 +30,12 @@ from api.section import section_api
 from api.nestPost import nestPost_api # Justin added this, custom format for his website
 from api.messages_api import messages_api # Adi added this, messages for his website
 from api.vote import vote_api
+from api.vacation import vacation_api 
 from api.student import student_api # Anyi added
 from api.landscape import landscape_api
 from api.weatherstatic import weather_api
 from api.explore import explore_api
-from api.destinations import destinations_api
+from api.destinations import destinations_api #michelle
 
 
 # database Initialization functions
@@ -47,6 +48,7 @@ from model.post import Post, initPosts
 from model.favorite import Favorite, initFavorite
 from model.nestPost import NestPost, initNestPosts # Justin added this, custom format for his website
 from model.vote import Vote, initVotes
+from model.vacation import  initVacation
 from model.landscape import Landscape, initLandscape
 # server only Views
 
@@ -59,6 +61,7 @@ app.register_blueprint(pfp_api)
 app.register_blueprint(post_api)
 app.register_blueprint(channel_api)
 app.register_blueprint(group_api)
+app.register_blueprint(vacation_api)
 app.register_blueprint(section_api)
 app.register_blueprint(student_api)
 app.register_blueprint(landscape_api)
@@ -264,6 +267,7 @@ def generate_data():
     initFavorite()
     initNestPosts()
     initVotes()
+    initVacation()
     initComments()
     initLandscape()
 
