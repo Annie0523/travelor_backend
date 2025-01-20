@@ -45,7 +45,65 @@ class Vacation(db.Model):
             'climate': self.climate,
             'country': self.country
         }
+    def read(self):
+        """
+        The read method retrieves the object data from the object's attributes and returns it as a dictionary.
+        
+        Returns:
+            dict: A dictionary containing the vacation's data.
+        """
+        return {
+            'id': self.id,
+            'name': self.name,
+            'climate': self.climate,
+            'country': self.country
+        }
+        
+    def update(self, inputs):
+        """
+        Updates the vacation object with new data.
+        
+        Args:
+            inputs (dict): A dictionary containing the new data for the vacation.
+        
+        Returns:
+            Vacation: The updated vacation object, or None on error.
+        """
+        if not isinstance(inputs, dict):
+            return self
 
+        name = inputs.get("name", "")
+        climate = inputs.get("climate", None)
+        country= inputs.get("country", None)
+
+        # Update table with new data
+        if name:
+            self.name = name
+        if climate:
+            self.climate = climate
+        if country:
+            self.country =country
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return None
+        return self
+        
+    @staticmethod
+    def restore(data):
+        vacations = {}
+        for vacation_data in data:
+            _ = vacation_data.pop('id', None)  # Remove 'id' from channel_data
+            name = vacation_data.get("name", None)
+            vacation = Vacation.query.filter_by(name=name).first()
+            if vacation:
+                vacation.update(vacation_data)
+            else:
+                vacation = Vacation(**vacation_data)
+                vacation.create()
+        return vacations
 # Function to initialize the database and seed it with tester data
 def initVacation():
     """
