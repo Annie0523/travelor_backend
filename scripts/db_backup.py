@@ -18,11 +18,7 @@ import os
 # Add the directory containing main.py to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-<<<<<<< Updated upstream
 from main import app, backup_data
-=======
-from api.explore import app, backup_data
->>>>>>> Stashed changes
 
 def main():
     # Step 1: Backup the old database
