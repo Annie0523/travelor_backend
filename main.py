@@ -48,7 +48,7 @@ from model.post import Post, initPosts
 from model.favorite import Favorite, initFavorite
 from model.nestPost import NestPost, initNestPosts # Justin added this, custom format for his website
 from model.vote import Vote, initVotes
-from model.vacation import  initVacation
+from model.vacation import Vacation, initVacation
 from model.landscape import Landscape, initLandscape
 # server only Views
 
@@ -292,6 +292,7 @@ def extract_data():
         data['sections'] = [section.read() for section in Section.query.all()]
         data['groups'] = [group.read() for group in Group.query.all()]
         data['channels'] = [channel.read() for channel in Channel.query.all()]
+        data['vacations'] = [vacation.read() for vacation in Vacation.query.all()]
         data['posts'] = [post.read() for post in Post.query.all()]
         data['favorites'] = [favorite.read() for favorite in Favorite.query.all()]
         data['landscapes'] = [landscape.read() for landscape in Landscape.query.all()]
@@ -311,7 +312,7 @@ def save_data_to_json(data, directory='backup'):
 # Load data from JSON files
 def load_data_from_json(directory='backup'):
     data = {}
-    for table in ['users', 'sections', 'groups', 'channels', 'posts']:
+    for table in ['users', 'sections', 'groups', 'channels','posts', 'vacations']:
         with open(os.path.join(directory, f'{table}.json'), 'r') as f:
             data[table] = json.load(f)
     return data
@@ -324,6 +325,7 @@ def restore_data(data):
         _ = Section.restore(data['sections'])
         _ = Group.restore(data['groups'], users)
         _ = Channel.restore(data['channels'])
+        _ = Vacation.restore(data['vacations'])
         _ = Post.restore(data['posts'])
         _ = Favorite.restore(data['posts'])
         _ = Landscape.restore(data['posts'])
