@@ -42,6 +42,7 @@ class Landscape(db.Model):
             'city': self.city,
             'description': self.description
         }
+        
     def read(self):
         return {
             'id': self.id,
