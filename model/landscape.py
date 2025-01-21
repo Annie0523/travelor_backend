@@ -19,11 +19,11 @@ class Landscape(db.Model):
         try:
             db.session.add(self)
             db.session.commit()
+            return self
         except Exception as e:
             db.session.rollback()
             logging.warning(f"Error creating landscape: {str(e)}")
             return None
-        return self
 
     def delete(self):
         try:
@@ -50,13 +50,35 @@ def initLandscape():
     Uses:
         The db ORM methods to create the table.
     """
-    db.create_all()
-    # Add tester data
-    if not Landscape.query.first():
-        landscapes = [
-            Landscape(name="Grand Canyon", country="USA", city="Arizona", description="A steep-sided canyon carved by the Colorado River."),
-            Landscape(name="Great Wall of China", country="China", city="Beijing", description="A series of fortifications made of stone, brick, tamped earth, wood, and other materials."),
-            Landscape(name="Eiffel Tower", country="France", city="Paris", description="A wrought-iron lattice tower on the Champ de Mars in Paris, France.")
-        ]
-        for landscape in landscapes:
-            landscape.create()
+    try:
+        db.create_all()
+
+        # Check if data already exists
+        if not Landscape.query.first():
+            landscapes = [
+                Landscape(
+                    name="Grand Canyon",
+                    country="USA",
+                    city="Arizona",
+                    description="A steep-sided canyon carved by the Colorado River."
+                ),
+                Landscape(
+                    name="Great Wall of China",
+                    country="China",
+                    city="Beijing",
+                    description="A series of fortifications made of stone, brick, tamped earth, wood, and other materials."
+                ),
+                Landscape(
+                    name="Eiffel Tower",
+                    country="France",
+                    city="Paris",
+                    description="A wrought-iron lattice tower on the Champ de Mars in Paris, France."
+                )
+            ]
+            for landscape in landscapes:
+                landscape.create()
+
+        logging.info("Landscape table initialized and seeded successfully.")
+    except Exception as e:
+        logging.error(f"Error initializing Landscape table: {e}")
+        raise e

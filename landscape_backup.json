@@ -1,0 +1,25 @@
+{
+    "landscapes": [
+        {
+            "id": 1,
+            "name": "Grand Canyon",
+            "country": "USA",
+            "city": "Arizona",
+            "description": "A steep-sided canyon carved by the Colorado River."
+        },
+        {
+            "id": 2,
+            "name": "Great Wall of China",
+            "country": "China",
+            "city": "Beijing",
+            "description": "A series of fortifications made of stone, brick, tamped earth, wood, and other materials."
+        },
+        {
+            "id": 3,
+            "name": "Eiffel Tower",
+            "country": "France",
+            "city": "Paris",
+            "description": "A wrought-iron lattice tower on the Champ de Mars in Paris, France."
+        }
+    ]
+}
