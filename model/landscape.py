@@ -42,6 +42,33 @@ class Landscape(db.Model):
             'city': self.city,
             'description': self.description
         }
+    def read(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'country': self.country,
+            'city': self.city,
+            'description': self.description
+        }
+
+
+    @staticmethod
+    def restore(data):
+        try:
+            for item in data:
+                landscape = Landscape(
+                    name=item['name'],
+                    country=item['country'],
+                    city=item['city'],
+                    description=item['description']
+                )
+                db.session.add(landscape)
+            db.session.commit()
+            return True
+        except Exception as e:
+            db.session.rollback()
+            logging.warning(f"Error restoring landscapes: {str(e)}")
+            return False
 
 def initLandscape():
     """
