@@ -56,13 +56,23 @@ class Landscape(db.Model):
     def restore(data):
         try:
             for item in data:
-                landscape = Landscape(
+                
+                # Check if the landscape already exists
+                existing_landscape = Landscape.query.filter_by(
                     name=item['name'],
                     country=item['country'],
                     city=item['city'],
                     description=item['description']
-                )
-                db.session.add(landscape)
+                ).first()
+                
+                if not existing_landscape:
+                    landscape = Landscape(
+                        name=item['name'],
+                        country=item['country'],
+                        city=item['city'],
+                        description=item['description']
+                    )
+                    db.session.add(landscape)
             db.session.commit()
             return True
         except Exception as e:
