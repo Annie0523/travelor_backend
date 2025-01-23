@@ -1,0 +1,107 @@
+[1mdiff --git a/api/explore.py b/api/explore.py[m
+[1mindex 80e6294..70e904d 100644[m
+[1m--- a/api/explore.py[m
+[1m+++ b/api/explore.py[m
+[36m@@ -1,127 +1,28 @@[m
+[31m-from flask import Flask, jsonify[m
+[31m-from flask_cors import CORS, cross_origin[m
+[31m-from flask import Blueprint, jsonify[m
+[32m+[m[32mfrom flask import Blueprint, request, jsonify[m
+ from flask_restful import Api, Resource[m
+[31m-import json[m
+[31m-import os[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-explore_api = Blueprint('explore_api', __name__)[m
+[31m-CORS(explore_api)[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-# ================== Static DATA ==================[m
+[31m-cities_data = [[m
+[31m-    {[m
+[31m-        "name": "Tokyo",[m
+[31m-        "value": "tokyo",[m
+[31m-        "position": [35.6895, 139.6917],[m
+[31m-        "category": "Modern",[m
+[31m-        "interest": "TOKYO:, technology, anime, Cherry Blossom, Temples, Shibuya"[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "Mumbai",[m
+[31m-        "value": "mumbai",[m
+[31m-        "position": [19.0760, 72.8777],[m
+[31m-        "category": "Religious",[m
+[31m-        "interest": "MUMBAI:, bollywood, curry, Ganesh, Beaches, Elephants, Street Food, Taj Mahal",[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "Cairo",[m
+[31m-        "value": "cairo",[m
+[31m-        "position": [30.0444, 31.2357],[m
+[31m-        "category": "historical",[m
+[31m-        "interest": "CAIRO:, pyramids, Egypt, Sphinx, Nile River, mosques",[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "Lagos",[m
+[31m-        "value": "lagos",[m
+[31m-        "position": [6.5244, 3.3792],[m
+[31m-        "category": "Scenic",[m
+[31m-        "interest": "LAGOS:, afrobeat, Beaches, Nike Art gallery, Jazz, Nightlife, Makoko",[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "London",[m
+[31m-        "value": "london",[m
+[31m-        "position": [51.5074, -0.1278],[m
+[31m-        "category": "historical",[m
+[31m-        "interest": "LONDON:, theatre, Buckingham Palace, Big Ben, King of England, Harry Potter, Tea",[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "Paris",[m
+[31m-        "value": "paris",[m
+[31m-        "position": [48.8566, 2.3522],[m
+[31m-        "category": "cultural",[m
+[31m-        "interest": "PARIS:, fashion, Eiffel Tower, Louvre Museum, France, Baguette, Notre Dame Cathedral",[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "New York City",[m
+[31m-        "value": "new_york_city",[m
+[31m-        "position": [40.7128, -74.0060],[m
+[31m-        "category": "Modern",[m
+[31m-        "interest": "NEW YORK CITY:, Empire State, Times Square, Central Park, Broadway, Statue of Liberty, Wall Street, 9/11 memorial, Brooklyn Bridge, pizza, hot dogs",[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "Mexico City",[m
+[31m-        "value": "mexico_city",[m
+[31m-        "position": [19.4326, -99.1332],[m
+[31m-        "category": "cultural",[m
+[31m-        "interest": "MEXICO CITY:, Hispanic, Volcanic horizons, Day of the dead, Mariachi, tacos, burritos, Lucha Libre",[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "Sao Paulo",[m
+[31m-        "value": "sao_paulo",[m
+[31m-        "position": [-23.5505, -46.6333],[m
+[31m-        "category": "Natural",[m
+[31m-        "interest": "SAO PAULO:, Neon parties, Samba Beats, Soccer, Urban Jungles, party, Carnival, Brazil, Football, Street Art, Paulista Avenue, Beco do Batman",[m
+[31m-    },[m
+[31m-    {[m
+[31m-        "name": "Buenos Aires",[m
+[31m-        "value": "buenos_aires",[m
+[31m-        "position": [-34.6037, -58.3816],[m
+[31m-        "category": "historical",[m
+[31m-        "interest": "BUENOS AIRES:, football, Argentina, Steak, La Boca Neighborhood, Tango, Cafe Culture, Palermo Park",[m
+[31m-    }[m
+[31m-][m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-@explore_api.route('/check', methods=['GET'])[m
+[31m-@cross_origin()[m
+[31m-def home():[m
+[31m-
