@@ -7,8 +7,7 @@ class Landscape(db.Model):
     name = db.Column(db.String(255), nullable=False)
     country = db.Column(db.String(255), nullable=False)
     city = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-
+    description = db.Column(db.String(225), nullable=False)
     def __init__(self, name, country, city, description):
         self.name = name
         self.country = country
