@@ -32,15 +32,6 @@ class Landscape(db.Model):
             db.session.rollback()
             logging.warning(f"Error deleting landscape: {str(e)}")
             raise e
-
-    def serialize(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'country': self.country,
-            'city': self.city,
-            'description': self.description
-        }
         
     def read(self):
         return {

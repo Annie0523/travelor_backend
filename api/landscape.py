@@ -10,13 +10,13 @@ api = Api(landscape_api)
 class LandscapeAPI(Resource):
     def get(self):
         landscapes = Landscape.query.all()
-        return jsonify([landscape.serialize() for landscape in landscapes])
+        return jsonify([landscape.read() for landscape in landscapes])
 
     def post(self):
         data = request.get_json()
         new_landscape = Landscape(data['name'], data['country'], data['city'], data['description'])
         new_landscape.create()
-        return jsonify(new_landscape)
+        return jsonify(new_landscape.read())
     
     def delete(self):
         data = request.get_json()
