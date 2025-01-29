@@ -39,9 +39,10 @@ from api.vote import vote_api
 from api.vacation import vacation_api
 from api.student import student_api # Anyi added
 from api.landscape import landscape_api
-from api.weatherstatic import weather_api
+# from api.weatherstatic import weather_api
 from api.explore import explore_api
 from api.destinations import destinations_api #michelle
+from api.weather import weather_api
 
 
 
@@ -59,6 +60,7 @@ from model.vote import Vote, initVotes
 from model.vacation import  initVacation
 from model.landscape import Landscape, initLandscape
 from model.explore import Explore, initExplore
+from model.weather import Weather, initWeather
 # server only Views
 
 
@@ -336,6 +338,7 @@ def generate_data():
     initComments()
     initLandscape()
     initExplore()
+    initWeather()
 
 
 
@@ -366,6 +369,7 @@ def extract_data():
         data['favorites'] = [favorite.read() for favorite in Favorite.query.all()]
         data['landscapes'] = [landscape.read() for landscape in Landscape.query.all()]
         data['explores'] = [explore.read() for explore in Explore.query.all()]
+        data['weathers'] = [weather.read() for weather in Weather.query.all()]
     return data
 
 
@@ -405,6 +409,7 @@ def restore_data(data):
         _ = Favorite.restore(data['posts'])
         _ = Landscape.restore(data['landscapes'])    
         _ = Explore.restore(data['explores'])
+        _ = Weather.restore(data['weathers'])
     print("Data restored to the new database.")
 
 

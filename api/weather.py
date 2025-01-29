@@ -4,7 +4,6 @@ from flask_cors import CORS
 from model.weather import db, Weather, initWeather
 
 weather_api = Blueprint('weather_api', __name__, url_prefix='/api')
-CORS(weather_api)
 api = Api(weather_api)
 
 
