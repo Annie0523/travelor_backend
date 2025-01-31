@@ -16,6 +16,12 @@ from model.comment import initComments
 
 
 
+
+
+
+
+
+
 # import "objects" from "this" project
 from __init__ import app, db, login_manager  # Key Flask objects
 # API endpoints
@@ -30,12 +36,15 @@ from api.section import section_api
 from api.nestPost import nestPost_api # Justin added this, custom format for his website
 from api.messages_api import messages_api # Adi added this, messages for his website
 from api.vote import vote_api
-from api.vacation import vacation_api 
+from api.vacation import vacation_api
 from api.student import student_api # Anyi added
 from api.landscape import landscape_api
-from api.weatherstatic import weather_api
+# from api.weatherstatic import weather_api
 from api.explore import explore_api
 from api.destinations import destinations_api #michelle
+from api.weather import weather_api
+
+
 
 
 # database Initialization functions
@@ -50,7 +59,11 @@ from model.nestPost import NestPost, initNestPosts # Justin added this, custom f
 from model.vote import Vote, initVotes
 from model.vacation import  initVacation
 from model.landscape import Landscape, initLandscape
+from model.explore import Explore, initExplore
+from model.weather import Weather, initWeather
 # server only Views
+
+
 
 
 # register URIs for api endpoints
@@ -74,13 +87,19 @@ app.register_blueprint(nestImg_api)
 app.register_blueprint(vote_api)
 
 
+
+
 # Tell Flask-Login the view function name of your login route
 login_manager.login_view = "login"
+
+
 
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
     return redirect(url_for('login', next=request.path))
+
+
 
 
 # register URIs for server pages
@@ -89,9 +108,13 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+
+
 @app.context_processor
 def inject_user():
     return dict(current_user=current_user)
+
+
 
 
 # Helper function to check if the URL is safe for redirects
@@ -101,10 +124,14 @@ def is_safe_url(target):
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     next_page = request.args.get('next', '') or request.form.get('next', '')
+
+
 
 
     # Check if the request method is POST
@@ -115,8 +142,12 @@ def login():
         password = request.form.get('password')
 
 
+
+
         # Fetch the user from the database
         user = User.query.filter_by(_uid=username).first()
+
+
 
 
         # Validate the user's credentials
@@ -128,9 +159,13 @@ def login():
             login_user(user, remember=remember_me)
 
 
+
+
             # Check if the next page URL is safe
             if not is_safe_url(next_page):
                 return abort(400)
+
+
 
 
             # Redirect to the next page or the index
@@ -139,13 +174,19 @@ def login():
             error = 'Invalid username or password.'
 
 
+
+
     # Render the login page with the error (if any)
     return render_template("login.html", error=error, next=next_page)
+
+
 
 
 @app.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
     error = None
+
+
 
 
     if request.method == 'POST':
@@ -155,6 +196,8 @@ def sign_up():
         password = request.form.get('password')
 
 
+
+
         # Check if the username already exists
         existing_user = User.query.filter_by(_uid=username).first()
         if existing_user:
@@ -162,6 +205,8 @@ def sign_up():
         else:
             # Hash the password before saving it
             hashed_password = generate_password_hash(password)
+
+
 
 
             # Create a new user object
@@ -185,11 +230,15 @@ def sign_up():
     return render_template("sign_up.html", error=error)
 
 
+
+
    
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
 
 
 @app.errorhandler(404)  # catch for URL not found
@@ -198,10 +247,14 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
+
+
 @app.route('/')  # connects default URL to index() function
 def index():
     print("Home:", current_user)
     return render_template("index.html")
+
+
 
 
 @app.route('/users/table')
@@ -211,11 +264,15 @@ def utable():
     return render_template("utable.html", user_data=users)
 
 
+
+
 @app.route('/users/table2')
 @login_required
 def u2table():
     users = User.query.all()
     return render_template("u2table.html", user_data=users)
+
+
 
 
 # Helper function to extract uploads for a user (ie PFP image)
@@ -233,6 +290,8 @@ def delete_user(user_id):
     return jsonify({'error': 'User not found'}), 404
 
 
+
+
 @app.route('/users/reset_password/<int:user_id>', methods=['POST'])
 @login_required
 def reset_password(user_id):
@@ -244,6 +303,8 @@ def reset_password(user_id):
         return jsonify({'error': 'User not found'}), 404
 
 
+
+
     # Set the new password
     if user.update({"password": app.config['DEFAULT_PASSWORD']}):
         return jsonify({'message': 'Password reset successfully'}), 200
@@ -252,8 +313,14 @@ def reset_password(user_id):
 
 
 
+
+
+
+
 # Create an AppGroup for custom commands
 custom_cli = AppGroup('custom', help='Custom commands')
+
+
 
 
 # Define a command to run the data generation functions
@@ -270,6 +337,10 @@ def generate_data():
     initVacation()
     initComments()
     initLandscape()
+    initExplore()
+    initWeather()
+
+
 
 
 # Backup the old database
@@ -284,6 +355,8 @@ def backup_database(db_uri, backup_uri):
         print("Backup not supported for production database.")
 
 
+
+
 # Extract data from the existing database
 def extract_data():
     data = {}
@@ -295,7 +368,11 @@ def extract_data():
         data['posts'] = [post.read() for post in Post.query.all()]
         data['favorites'] = [favorite.read() for favorite in Favorite.query.all()]
         data['landscapes'] = [landscape.read() for landscape in Landscape.query.all()]
+        data['explores'] = [explore.read() for explore in Explore.query.all()]
+        data['weathers'] = [weather.read() for weather in Weather.query.all()]
     return data
+
+
 
 
 # Save extracted data to JSON files
@@ -308,6 +385,8 @@ def save_data_to_json(data, directory='backup'):
     print(f"Data backed up to {directory} directory.")
 
 
+
+
 # Load data from JSON files
 def load_data_from_json(directory='backup'):
     data = {}
@@ -315,6 +394,8 @@ def load_data_from_json(directory='backup'):
         with open(os.path.join(directory, f'{table}.json'), 'r') as f:
             data[table] = json.load(f)
     return data
+
+
 
 
 # Restore data to the new database
@@ -326,8 +407,12 @@ def restore_data(data):
         _ = Channel.restore(data['channels'])
         _ = Post.restore(data['posts'])
         _ = Favorite.restore(data['posts'])
-        _ = Landscape.restore(data['landscapes'])
+        _ = Landscape.restore(data['landscapes'])    
+        _ = Explore.restore(data['explores'])
+        _ = Weather.restore(data['weathers'])
     print("Data restored to the new database.")
+
+
 
 
 # Define a command to backup data
@@ -336,6 +421,8 @@ def backup_data():
     data = extract_data()
     save_data_to_json(data)
     backup_database(app.config['SQLALCHEMY_DATABASE_URI'], app.config['SQLALCHEMY_BACKUP_URI'])
+
+
 
 
 # Define a command to restore data
@@ -351,5 +438,3 @@ app.cli.add_command(custom_cli)
 if __name__ == "__main__":
     # change name for testing
     app.run(debug=True, host="0.0.0.0", port=8402)
-
-
