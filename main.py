@@ -324,8 +324,8 @@ def restore_data(data):
         _ = Section.restore(data['sections'])
         _ = Group.restore(data['groups'], users)
         _ = Channel.restore(data['channels'])
-       # _ = Post.restore(data['posts'])
-        #_ = Favorite.restore(data['posts'])
+        _ = Post.restore(data['posts'])
+        _ = Favorite.restore(data['posts'])
         _ = Landscape.restore(data['landscapes'])
     print("Data restored to the new database.")
 
@@ -350,6 +350,6 @@ app.cli.add_command(custom_cli)
 # this runs the flask application on the development server
 if __name__ == "__main__":
     # change name for testing
-    app.run(debug=True, host="0.0.0.0", port=8887)
+    app.run(debug=True, host="0.0.0.0", port=8402)
 
 
