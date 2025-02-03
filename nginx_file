@@ -4,7 +4,7 @@ server {
     server_name p4csp.thetravelers.com;
 
     location / {
-        proxy_pass http://web:8402;  # Use the service name in Docker Compose
+        proxy_pass http://localhost:8402;  # Use the service name in Docker Compose
 
         # Set headers to forward real IP and Host
         proxy_set_header X-Real-IP $remote_addr;
