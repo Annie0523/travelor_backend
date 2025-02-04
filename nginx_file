@@ -1,7 +1,7 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name p4csp.thetravelers.com;
+    server_name travelor.stu.nighthawkcodingsociety.com;
 
     location / {
         proxy_pass http://localhost:8402;  # Use the service name in Docker Compose

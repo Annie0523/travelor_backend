@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.11
+FROM python:3.12.3
 
 # Set the working directory in the container
 WORKDIR /app
@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 
 # Set environment variables
 ENV GUNICORN_CMD_ARGS="--workers=1 --bind=0.0.0.0:8402"
-ENV FLASK_ENV=production
+ENV FLASK_ENV=deploy
 
 # Make port 8402 available to the world outside this container
 EXPOSE 8402
