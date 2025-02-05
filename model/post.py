@@ -87,7 +87,7 @@ class Post(db.Model):
         """
         user = User.query.get(self._user_id)
         channel = Channel.query.get(self._channel_id)
-        favorite = Favorite.query.filter_by(user_id=g.current_user.id, post_id=self.id).first()
+        favorite = Favorite.query.filter_by(user_id=self._user_id, post_id=self.id).first()
         data = {
             "id": self.id,
             "title": self._title,
