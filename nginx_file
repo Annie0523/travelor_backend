@@ -1,32 +1,19 @@
-server {
-    listen 80;
-    listen [::]:80;
-    server_name travelor.stu.nighthawkcodingsociety.com;
+  server {
+      listen 80;
+      listen [::]:80;
+      server_name travelor.stu.nighthawkcodingsociety.com;
 
-    location / {
-        proxy_pass http://localhost:8402;  # Use the service name in Docker Compose
+      location / {
+          proxy_pass http://localhost:8402;
 
-        # Set headers to forward real IP and Host
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $host;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "Upgrade";
-
-        # Increase timeout for large responses
-        proxy_read_timeout 300;
-
-        # CORS settings
-        if ($request_method = OPTIONS) {
-            add_header "Access-Control-Allow-Credentials" "true" always;
-            add_header "Access-Control-Allow-Origin" "https://annie0523.github.io" always;
-            add_header "Access-Control-Allow-Methods" "GET, POST, PUT, DELETE, OPTIONS, HEAD" always;
-            add_header "Access-Control-Allow-Headers" "Authorization, Origin, X-Origin, X-Requested-With, Content-Type, Accept" always;
-            return 204;
-        }
-    }
-
-    # Optional: Redirect HTTP to HTTPS
-    return 301 https://$host$request_uri;
-}
+          # Preflighted requests
+          if ($request_method = OPTIONS) {
+              add_header "Access-Control-Allow-Credentials" "true" always;
+              add_header "Access-Control-Allow-Origin"  "https://annie0523.github.io" always;
+              add_header "Access-Control-Allow-Methods" "GET, POST, PUT, DELETE, OPTIONS, HEAD" always;
+              add_header "Access-Control-Allow-MaxAge" 600 always;
+              add_header "Access-Control-Allow-Headers" "Authorization, Origin, X-Origin, X-Requested-With, Content-Type, Accept" always;
+              return 204;
+          }
+      }
+  }
