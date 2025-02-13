@@ -1,11 +1,10 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app, Response, g
 from flask_restful import Api, Resource
-from flask_cors import CORS
+import jwt
 from model.vacation import db, Vacation
 
-# Blueprint and CORS setup
+#
 vacation_api = Blueprint('vacation_api', __name__, url_prefix='/api')
-CORS(vacation_api)
 api = Api(vacation_api)
 
 # API Resource
@@ -16,9 +15,12 @@ class VacationAPI(Resource):
             vacations = Vacation.query.all()
             # Serialize the data
             serialized_vacations = [vacation.serialize() for vacation in vacations]
-            return jsonify(serialized_vacations), 200
+            return (serialized_vacations), 200
+            #json = vacations.read()
+            #return jsonify(json), 200
         except Exception as e:
             return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+        
 
     def post(self):
         try:
@@ -43,9 +45,11 @@ class VacationAPI(Resource):
             # Add to the database
             db.session.add(new_vacation)
             db.session.commit()
-            return "Vacation record added successfully", 201
+            #return "Vacation record added successfully", 201
             # Return the serialized data of the new vacation
-            return jsonify(new_vacation.serialize()), 201
+            serialized_vacations =  new_vacation.read()
+            return (serialized_vacations), 200
+            #return jsonify(new_vacation.read()), 201
         except Exception as e:
             db.session.rollback()
             return jsonify({"error": f"An error occurred: {str(e)}"}), 500
@@ -61,7 +65,7 @@ class VacationAPI(Resource):
             vacation = Vacation.query.get(data['id'])
             if not vacation:
                 return jsonify({"error": "Vacation not found"}), 404
-
+            json = vacation.read() 
             # Delete the vacation from the database
             db.session.delete(vacation)
             db.session.commit()

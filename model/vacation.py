@@ -16,6 +16,7 @@ class Vacation(db.Model):
         self.climate = climate
         self.country = country
 
+
     # Create method
     def create(self):
         try:
