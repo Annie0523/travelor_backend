@@ -41,7 +41,23 @@ class Landscape(db.Model):
             'city': self.city,
             'description': self.description
         }
-
+        
+    def update(self, name=None, country=None, city=None, description=None):
+        try:
+            if name:
+                self.name = name
+            if country:
+                self.country = country
+            if city:
+                self.city = city
+            if description:
+                self.description = description
+            db.session.commit()
+            return self
+        except Exception as e:
+            db.session.rollback()
+            logging.warning(f"Error updating landscape: {str(e)}")
+            return None
 
     @staticmethod
     def restore(data):

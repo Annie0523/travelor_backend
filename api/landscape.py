@@ -16,6 +16,20 @@ class LandscapeAPI(Resource):
         new_landscape.create()
         return jsonify(new_landscape.read()), 201
     
+    def put(self):
+        data = request.get_json()
+        landscape = Landscape.query.get(data['id'])  
+        if landscape:
+            landscape.update(
+                name=data.get('name'),  
+                country=data.get('country'),
+                city=data.get('city'),
+                description=data.get('description')
+            )
+            return jsonify(landscape.read()), 200
+        else:
+            return jsonify({"error": "Landscape not found"}), 404
+        
     def delete(self):
         data = request.get_json()
         landscape = Landscape.query.get(data['id'])
