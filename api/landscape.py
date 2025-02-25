@@ -30,7 +30,9 @@ class LandscapeAPI(Resource):
 
             db.session.add(new_landscape)
             db.session.commit()
-            return jsonify(new_landscape.read()), 201
+            
+            return jsonify(new_landscape.read())
+        
         except Exception as e:
             db.session.rollback()
             return jsonify({"error": f"An error occurred: {str(e)}"}), 500
@@ -52,7 +54,7 @@ class LandscapeAPI(Resource):
                 description=data.get('description', landscape.description).strip()
             )
             db.session.commit()
-            return jsonify(landscape.read()), 200
+            return jsonify(landscape.read())
         except Exception as e:
             db.session.rollback()
             return jsonify({"error": f"An error occurred: {str(e)}"}), 500
