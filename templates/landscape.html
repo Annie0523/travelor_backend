@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Landscape Management</h1>
+    <table class="table table-striped" id="landscapeTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Description</th>
+                {% if current_user.role == 'Admin' %}
+                <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for landscape in landscapes %}
+            <tr>
+                <td>{{ landscape.id }}</td>
+                <td>{{ landscape.name }}</td>
+                <td>{{ landscape.country }}</td>
+                <td>{{ landscape.city }}</td>
+                <td>{{ landscape.description }}</td>
+                {% if current_user.role == 'Admin' %}
+                <td>
+                    <button class="btn btn-danger delete-btn" data-id="{{ landscape.id }}">Delete</button>
+                    <button class="btn btn-warning update-btn" data-id="{{ landscape.id }}">Update</button>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if current_user.role == 'Admin' %}
+    <script>
+        $(document).ready(function() {
+            $("#landscapeTable").DataTable();
+
+            $(document).on("click", ".delete-btn", function() {
+                var id = $(this).data("id");
+                fetch("/api/landscape", {
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: id })
+                })
+                .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                .then(response => {
+                    if (response.status === 200) {
+                        alert(response.body.message);
+                        location.reload();
+                    } else {
+                        alert(response.body.error || "Failed to delete landscape.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+
+            $(document).on("click", ".update-btn", function() {
+                var id = $(this).data("id");
+                // Add your update logic here
+            });
+        });
+    </script>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block background %}
+{% endblock %}
