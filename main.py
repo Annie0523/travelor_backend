@@ -272,7 +272,11 @@ def u2table():
     users = User.query.all()
     return render_template("u2table.html", user_data=users)
 
-
+@app.route('/landscapes')
+@login_required
+def landscape():
+    landscapes = Landscape.query.all()
+    return render_template("landscape.html", landscapes=landscapes)
 
 
 # Helper function to extract uploads for a user (ie PFP image)
