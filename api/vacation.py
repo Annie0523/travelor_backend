@@ -69,8 +69,8 @@ class VacationAPI(Resource):
             # Delete the vacation from the database
             db.session.delete(vacation)
             db.session.commit()
-
-            return jsonify({"message": "Vacation record deleted successfully"}), 200
+            return 200 
+        #jsonify({"message": "Vacation record deleted successfully"}), 200
         except Exception as e:
             db.session.rollback()
             return jsonify({"error": f"An error occurred: {str(e)}"}), 500
