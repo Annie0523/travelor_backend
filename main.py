@@ -8,8 +8,6 @@ from flask.cli import AppGroup
 from flask_login import current_user, login_required
 from flask import current_app
 from werkzeug.security import generate_password_hash
-from dotenv import load_dotenv
-load_dotenv('chatbot.env') 
 import shutil
 from model.comment import initComments
 
@@ -33,7 +31,6 @@ from api.pfp import pfp_api
 from api.nestImg import nestImg_api # Justin added this, custom format for his website
 from api.post import post_api
 from api.channel import channel_api
-from api.chatbot import chatbot_api
 from api.group import group_api
 from api.section import section_api
 from api.nestPost import nestPost_api # Justin added this, custom format for his website
@@ -83,7 +80,6 @@ app.register_blueprint(student_api)
 app.register_blueprint(landscape_api)
 app.register_blueprint(weather_api)
 app.register_blueprint(explore_api)
-app.register_blueprint(chatbot_api)
 app.register_blueprint(destinations_api)
 # Added new files to create nestPosts, uses a different format than Mortensen and didn't want to touch his junk
 app.register_blueprint(nestPost_api)
