@@ -2,60 +2,179 @@
 {% set project = "Home" %}
 
 {% block body %}
-    <style>
-        .card {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            margin: 20px;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .explore-button {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 20px 40px;
-            font-size: 24px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        .explore-button:hover {
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-        .title {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-    </style>
+  <style>
+    /* General Styling */
+    body {
+      background-color: #121212;
+      color: white;
+    }
+    
+    /* Blue Card Styling */
+    .blue-card {
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      background: linear-gradient(135deg, #007bff, #00aaff);
+      color: white;
+      margin: 20px;
+      padding: 20px;
+    }
+    
+    /* Green Card Styling */
+    .green-card {
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(40, 167, 69, 0.3);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      background: linear-gradient(135deg, #28a745, #2ecc71);
+      color: white;
+      margin: 20px;
+      padding: 20px;
+    }
+    
+    /* Hover effect for cards */
+    .blue-card:hover, .green-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.6);
+    }
+    
+    /* Button Styling for Blue Cards */
+    .btn-blue {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
+      padding: 10px 20px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .btn-blue:hover {
+      background-color: #00aaff;
+      transform: scale(1.05);
+    }
+    
+    /* Button Styling for Green Cards */
+    .btn-green {
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
+      padding: 10px 20px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .btn-green:hover {
+      background-color: #2ecc71;
+      transform: scale(1.05);
+    }
+    
+    /* Title Styling */
+    .title {
+      font-size: 48px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    /* Responsive Grid */
+    .row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .col {
+      flex: 1 0 30%;
+      max-width: 30%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    
+    @media (max-width: 768px) {
+      .col {
+        flex: 1 0 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
 
-    <div class="background">
-        <div class="title">The Travelers</div>
-        <div class="row">
-            <div class="col-4">
-                <div class="card">
-                    <h5 class="card-title">Meet the Developers</h5>
-                    <p class="card-text">
-                        Our team consists of talented individuals: Anyi, Collin, Michelle, Johan, and Luke. Each member brings unique skills and perspectives, contributing to the success of our project. Together, we strive to create an exceptional experience for our users.
-                    </p>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card">
-                    <h5 class="card-title">Website Concept and Features</h5>
-                    <p class="card-text">
-                        Our website allows users to explore various landscapes, providing detailed information about each location's characteristics and weather. Additionally, travelers can connect and share their experiences, fostering a community of like-minded adventurers.
-                    </p>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card">
-                    <h5 class="card-title">Explore Our Website</h5>
-                    <p class="card-text">
-                        Dive into our website to discover more about the amazing landscapes and connect with fellow travelers. Click the button below to start your journey with us.
-                    </p>
-                    <a href="https://annie0523.github.io/travelor_frontend/" class="explore-button">Explore Our Website</a>
-                </div>
-            </div>
+  <!-- Section: Traveler Admin Panel -->
+  <div class="text-center">
+    <h1 class="text-white mb-4"><strong>Traveler Admin Panel</strong></h1>
+    <div class="row">
+      <!-- User Management Box (Blue) -->
+      <div class="col">
+        <div class="blue-card">
+          <img class="card-img-top mx-auto d-block" 
+               src="{{ url_for('static', filename='assets/user.png') }}" 
+               alt="User Management" 
+               style="width: 50%;">
+          <div class="card-body text-center">
+            <h5 class="card-title">User Management</h5>
+            <p class="card-text">
+              <ol class="text-start">
+                <li>Add, remove, or modify users</li>
+              </ol>
+            </p>
+            <a href="https://cantella.stu.nighthawkcodingsociety.com/users/table2" class="btn-blue">Manage Users</a>
+          </div>
         </div>
+      </div>
+      
+      <!-- Admin Roles Box (Green) -->
+      <div class="col">
+        <div class="green-card">
+          <div class="card-body text-center">
+            <h5 class="card-title">Admin Roles</h5>
+            <p class="card-text">
+              <ol class="text-start">
+                <li><strong>Backend Admin Engineer:</strong> Johan</li>
+                <li><strong>Scrum Master:</strong> Annie</li>
+                <li><strong>Assistant Scrum Master:</strong> Michelle</li>
+                <li><strong>Assistant Deployment Admin:</strong> Annie</li>
+                <li><strong>Frontend UX Designer:</strong> Johan M and Colin</li>
+                <li><strong>Deployment Admin:</strong> Collin</li>
+              </ol>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Section: The Travelers -->
+  <div class="background mt-5">
+    <div class="title">The Travelers</div>
+    <div class="row">
+      <div class="col">
+        <div class="blue-card">
+          <h5 class="card-title">Meet the Developers</h5>
+          <p class="card-text">
+            Our team consists of talented individuals: Anyi, Collin, Michelle, Johan, and Luke. Each member brings unique skills and perspectives, contributing to the success of our project. Together, we strive to create an exceptional experience for our users.
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="green-card">
+          <h5 class="card-title">Website Concept and Features</h5>
+          <p class="card-text">
+            Our website allows users to explore various landscapes, providing detailed information about each location's characteristics and weather. Additionally, travelers can connect and share their experiences, fostering a community of like-minded adventurers.
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="blue-card">
+          <h5 class="card-title">Explore Our Website</h5>
+          <p class="card-text">
+            Dive into our website to discover more about the amazing landscapes and connect with fellow travelers. Click the button below to start your journey with us.
+          </p>
+          <a href="https://annie0523.github.io/travelor_frontend/" class="btn-blue">Explore Our Website</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
